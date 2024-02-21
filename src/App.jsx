@@ -60,8 +60,8 @@ function App() {
   }
 
   //processa a letra
-  const verifyLetter = () => {
-    setGameStage(stages[2].name);
+  const verifyLetter = (letter) => {
+    console.log(letter);
   }
 
   //recomeça o jogo
