@@ -22,10 +22,35 @@ function App() {
   const [gameStage, setGameStage] = useState(stages[0].name);
   const [words] = useState(wordsList);
 
-  console.log(words);
+  const [pickedWord, setPickedWord] = useState('');
+  const [pickedCategory, setPickedCategory] = useState('');
+  const [letters, setLetters] = useState([]);
+
+  const pickWordAndCategory = () => {
+    //pega uma categoria aleatoria
+    const categories = Object.keys(words);
+    const category = categories[Math.floor(Math.random()*categories.length)]
+
+    //pega uma palavra aleatoria de uma categoria
+    const word = words[category][Math.floor(Math.random()*words[category].length)];
+    
+    return {word, category};
+  }
 
   //começa o jogo
   const startGame = () => {
+    //escolhe uma palavra e uma categoria
+    const {word, category} = pickWordAndCategory();
+
+    let wordLetters = word.split('');
+    wordLetters = wordLetters.map(l => l.toLowerCase());
+    
+    //configura estados
+    setPickedWord(word);
+    setPickedCategory(category);
+    setLetters(wordLetters);
+
+    //cria um array que contém todas as letras da palavra escolhida
     setGameStage(stages[1].name);
   }
 
@@ -42,7 +67,7 @@ function App() {
     <div className='App'>
       {gameStage === 'start' && <StartScreen startGame={startGame}/>}
       {gameStage === 'game' && <Game verifyLetter={verifyLetter}/>}
-      {gameStage === 'end' && <GameOver retry={retry}/>}
+      {gameStage === 'end' && <GameOver retry={retry }/>}
     </div>
   )
 }
