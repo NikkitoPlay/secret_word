@@ -4,8 +4,8 @@ import "./App.css";
 //REACT
 import { useCallback, useEffect, useState } from "react";
 
-//DATA
-import { wordsList } from "./data/words";
+//DATA ver
+import {wordsList} from './data/words'
 
 //COMPONENTES
 import StartScreen from "./components/StartScreen";
