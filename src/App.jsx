@@ -83,15 +83,29 @@ function App() {
         ...atualWrong, 
         normalizedLetter
       ]);
+
+      setGuesses(atualGuesses => atualGuesses - 1);
     }
 
   };
-  console.log(letters)
-  console.log('adivinhadas', guessedLetters)
-  console.log('erradas', wrongLetters)
+  function clearLetterStates(){
+    setGuessedLetters([]);
+    setWrongLetters([]);
+  }
+  useEffect(()=>{
+    if(guesses <= 0){
+
+      //resetar todos os estados
+      clearLetterStates();
+      setGameStage(stages[2].name);
+    }
+  }, [guesses])
 
   //recomeça o jogo
   const retry = () => {
+    setScore();
+    setGuesses(3);
+
     setGameStage(stages[0].name);
   };
   return (
