@@ -4,7 +4,7 @@ import './App.css'
 //REACT
 import { useCallback, useEffect, useState } from 'react';
 
-//DATA
+//DATA ver
 import {wordsList} from './data/words'
 
 //COMPONENTES
