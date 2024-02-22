@@ -1,29 +1,29 @@
 //CSS
-import './App.css'
+import "./App.css";
 
 //REACT
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 //DATA
-import {wordsList} from './data/words'
+import { wordsList } from "./data/words";
 
 //COMPONENTES
-import StartScreen from './components/StartScreen'
-import Game from './components/Game';
-import GameOver from './components/GameOver';
+import StartScreen from "./components/StartScreen";
+import Game from "./components/Game";
+import GameOver from "./components/GameOver";
 
 const stages = [
-  {id: 1, name:'start'},
-  {id: 2, name:'game'},
-  {id: 3, name: 'end'}
+  { id: 1, name: "start" },
+  { id: 2, name: "game" },
+  { id: 3, name: "end" },
 ];
 
 function App() {
   const [gameStage, setGameStage] = useState(stages[0].name);
   const [words] = useState(wordsList);
 
-  const [pickedWord, setPickedWord] = useState('');
-  const [pickedCategory, setPickedCategory] = useState('');
+  const [pickedWord, setPickedWord] = useState("");
+  const [pickedCategory, setPickedCategory] = useState("");
   const [letters, setLetters] = useState([]);
 
   const [guessedLetters, setGuessedLetters] = useState([]);
@@ -34,22 +34,23 @@ function App() {
   const pickWordAndCategory = () => {
     //pega uma categoria aleatoria
     const categories = Object.keys(words);
-    const category = categories[Math.floor(Math.random()*categories.length)]
+    const category = categories[Math.floor(Math.random() * categories.length)];
 
     //pega uma palavra aleatoria de uma categoria
-    const word = words[category][Math.floor(Math.random()*words[category].length)];
-    
-    return {word, category};
-  }
+    const word =
+      words[category][Math.floor(Math.random() * words[category].length)];
+
+    return { word, category };
+  };
 
   //começa o jogo
   const startGame = () => {
     //escolhe uma palavra e uma categoria
-    const {word, category} = pickWordAndCategory();
+    const { word, category } = pickWordAndCategory();
 
-    let wordLetters = word.split('');
-    wordLetters = wordLetters.map(l => l.toLowerCase());
-    
+    let wordLetters = word.split("");
+    wordLetters = wordLetters.map((l) => l.toLowerCase());
+
     //configura estados
     setPickedWord(word);
     setPickedCategory(category);
@@ -57,23 +58,48 @@ function App() {
 
     //cria um array que contém todas as letras da palavra escolhida
     setGameStage(stages[1].name);
-  }
+  };
 
   //processa a letra
   const verifyLetter = (letter) => {
-    console.log(letter);
-  }
+    const normalizedLetter = letter.toLowerCase();
+
+    //chegcar se a letra já foi usada
+    if (
+      guessedLetters.includes(normalizedLetter) ||
+      wrongLetters.includes(normalizedLetter)
+    ) {
+      return;
+    }
+
+    //guardar letra adivinhada ou diminuir uma chance
+    if (letters.includes(normalizedLetter)) {
+      setGuessedLetters((atualGuessed) => [
+        ...atualGuessed, 
+        normalizedLetter
+      ]);
+    } else {
+      setWrongLetters((atualWrong) => [
+        ...atualWrong, 
+        normalizedLetter
+      ]);
+    }
+
+  };
+  console.log(letters)
+  console.log('adivinhadas', guessedLetters)
+  console.log('erradas', wrongLetters)
 
   //recomeça o jogo
   const retry = () => {
-     setGameStage(stages[0].name);
-  }
+    setGameStage(stages[0].name);
+  };
   return (
-    <div className='App'>
-      {gameStage === 'start' && <StartScreen startGame={startGame}/>}
-      {gameStage === 'game' && (
-        <Game 
-          verifyLetter={verifyLetter} 
+    <div className="App">
+      {gameStage === "start" && <StartScreen startGame={startGame} />}
+      {gameStage === "game" && (
+        <Game
+          verifyLetter={verifyLetter}
           pickedWord={pickedWord}
           pickedCategory={pickedCategory}
           letters={letters}
@@ -83,9 +109,9 @@ function App() {
           score={score}
         />
       )}
-      {gameStage === 'end' && <GameOver retry={retry }/>}
+      {gameStage === "end" && <GameOver retry={retry} />}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
