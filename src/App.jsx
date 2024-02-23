@@ -110,7 +110,7 @@ function App() {
   useEffect(()=>{
     const uniqueLetters = [... new Set(letters)];
     //condicao de vitoria
-    if(guessedLetters.length == uniqueLetters.length){
+    if(guessedLetters.length && guessedLetters.length == uniqueLetters.length){
       //adicionar score
       setScore(actualScore => actualScore += 100);
       //reinicia o jogo com uma nova palavra
