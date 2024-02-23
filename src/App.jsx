@@ -116,10 +116,6 @@ function App() {
       //reinicia o jogo com uma nova palavra
       startGame();
     }
-
-    
-
-    console.log(uniqueLetters);
   },[guessedLetters]);
 
   //recomeça o jogo
